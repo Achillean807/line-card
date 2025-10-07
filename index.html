@@ -106,6 +106,7 @@
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: white; display: flex; flex-direction: column;
       align-items: center; justify-content: center; z-index: 2000;
+      padding: 20px;
     }
     .loading-spinner {
       width: 50px; height: 50px; border: 5px solid #f3f3f3;
@@ -113,15 +114,25 @@
       animation: spin 1s linear infinite;
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .loading-text { margin-top: 20px; color: #666; font-size: 16px; }
-    .error { color: #E53E3E; margin-top: 10px; font-size: 14px; text-align: center; padding: 0 20px; }
+    .loading-text { margin-top: 20px; color: #666; font-size: 16px; text-align: center; }
+    .error { 
+      color: #E53E3E; 
+      margin-top: 20px; 
+      font-size: 13px; 
+      text-align: center; 
+      padding: 15px 20px;
+      background: #FEE;
+      border-radius: 8px;
+      max-width: 90%;
+      line-height: 1.5;
+    }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <div id="loading" class="loading">
     <div class="loading-spinner"></div>
-    <div class="loading-text">載入中...</div>
+    <div class="loading-text">正在載入 LIFF SDK...</div>
     <div id="errorMsg" class="error hidden"></div>
   </div>
   
@@ -133,7 +144,6 @@
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    // ✅ 設定你的 LIFF ID（這裡一定要換成你自己的）
     const CONFIG = {
       liffId: "2008244337-1PXmZeX4",
       cards: [
@@ -244,40 +254,44 @@
           alert("您的 LINE 版本不支援分享功能");
           return;
         }
-        const messages = CONFIG.cards.map(card => ({
-          type: "flex",
-          altText: `${card.name} 的電子名片`,
-          contents: {
-            type: "bubble",
-            hero: {
-              type: "image",
-              url: card.image,
-              size: "full",
-              aspectRatio: "1:1",
-              aspectMode: "cover"
-            },
-            body: {
-              type: "box",
-              layout: "vertical",
-              contents: [
-                { type: "text", text: card.name, weight: "bold", size: "xl", color: "#1a202c" },
-                { type: "text", text: card.title, size: "sm", color: "#718096", margin: "md" }
-              ]
-            },
-            footer: {
-              type: "box",
-              layout: "vertical",
-              contents: card.buttons.map(btn => ({
-                type: "button",
-                style: "primary",
-                action: { type: "uri", label: btn.label.substring(0, 20), uri: btn.url },
-                color: btn.color
-              }))
+        try {
+          const messages = CONFIG.cards.map(card => ({
+            type: "flex",
+            altText: `${card.name} 的電子名片`,
+            contents: {
+              type: "bubble",
+              hero: {
+                type: "image",
+                url: card.image,
+                size: "full",
+                aspectRatio: "1:1",
+                aspectMode: "cover"
+              },
+              body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  { type: "text", text: card.name, weight: "bold", size: "xl", color: "#1a202c" },
+                  { type: "text", text: card.title, size: "sm", color: "#718096", margin: "md" }
+                ]
+              },
+              footer: {
+                type: "box",
+                layout: "vertical",
+                contents: card.buttons.map(btn => ({
+                  type: "button",
+                  style: "primary",
+                  action: { type: "uri", label: btn.label.substring(0, 20), uri: btn.url },
+                  color: btn.color
+                }))
+              }
             }
-          }
-        }));
-        const result = await liff.shareTargetPicker(messages);
-        if (result) alert("✅ 名片已成功分享！");
+          }));
+          const result = await liff.shareTargetPicker(messages);
+          if (result) alert("✅ 名片已成功分享！");
+        } catch (error) {
+          alert("分享失敗：" + error.message);
+        }
       });
     }
 
@@ -289,25 +303,94 @@
       }
     }
 
+    function checkLiffReady() {
+      return new Promise((resolve, reject) => {
+        let attempts = 0;
+        const maxAttempts = 100; // 10秒
+        
+        const interval = setInterval(() => {
+          attempts++;
+          
+          if (typeof liff !== 'undefined' && liff.init) {
+            clearInterval(interval);
+            console.log("✅ LIFF SDK 已就緒");
+            resolve();
+          } else if (attempts >= maxAttempts) {
+            clearInterval(interval);
+            reject(new Error("LIFF SDK 載入逾時"));
+          }
+          
+          if (attempts % 10 === 0) {
+            console.log(`⏳ 等待 LIFF SDK... (${attempts}/100)`);
+          }
+        }, 100);
+      });
+    }
+
     async function initLiff() {
+      console.log("🔄 開始初始化...");
+      
       try {
+        // 等待 LIFF SDK 載入
+        document.querySelector(".loading-text").textContent = "正在載入 LIFF SDK...";
+        await checkLiffReady();
+        
+        // 初始化 LIFF
+        document.querySelector(".loading-text").textContent = "正在初始化 LIFF...";
+        console.log("🚀 初始化 LIFF API...");
+        console.log("📌 LIFF ID:", CONFIG.liffId);
+        
         await liff.init({ liffId: CONFIG.liffId });
+        
         console.log("✅ LIFF 初始化成功！");
+        console.log("📱 在 LINE 中:", liff.isInClient());
+        console.log("🔐 已登入:", liff.isLoggedIn());
+        
         isLiffInitialized = true;
+        
+        // 顯示名片
         renderCards();
         document.getElementById("loading").classList.add("hidden");
         document.getElementById("container").classList.remove("hidden");
-        if (CONFIG.cards.length > 1) document.getElementById("dots").classList.remove("hidden");
+        if (CONFIG.cards.length > 1) {
+          document.getElementById("dots").classList.remove("hidden");
+          setupScrollListener();
+        }
         document.getElementById("shareBtn").classList.remove("hidden");
         setupShareButton();
-        if (CONFIG.cards.length > 1) setupScrollListener();
+        
       } catch (error) {
-        console.error("❌ LIFF 初始化失敗:", error);
-        showError(error.message || "初始化失敗，請檢查 LIFF ID 是否正確");
+        console.error("❌ 初始化失敗:", error);
+        
+        let errorMsg = "載入失敗\n\n";
+        
+        if (error.message && error.message.includes("逾時")) {
+          errorMsg += "LIFF SDK 無法載入\n\n";
+          errorMsg += "請檢查：\n";
+          errorMsg += "1. 網路連線是否正常\n";
+          errorMsg += "2. 是否在 LINE App 中開啟\n";
+          errorMsg += "3. 嘗試重新整理頁面";
+        } else if (error.code === "400") {
+          errorMsg += "LIFF 設定錯誤\n\n";
+          errorMsg += "請確認 LINE Developers Console 中：\n";
+          errorMsg += "• LIFF ID 是否正確\n";
+          errorMsg += "• Endpoint URL 設為:\n";
+          errorMsg += "  https://line-card.vercel.app";
+        } else {
+          errorMsg += error.message || "未知錯誤";
+          errorMsg += "\n\n請嘗試重新整理頁面";
+        }
+        
+        showError(errorMsg);
       }
     }
 
-    window.addEventListener("load", initLiff);
+    // 頁面載入完成後初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLiff);
+    } else {
+      setTimeout(initLiff, 100);
+    }
   </script>
 </body>
 </html>
