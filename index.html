@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>LINE 電子名片</title>
-
-  <!-- 避免 favicon 404 -->
-  <link rel="icon" href="data:;base64,=">
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
       background: #f5f5f5;
@@ -80,146 +72,50 @@
       position: relative;
       z-index: 1;
     }
-    .name {
-      font-size: 32px;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 12px;
-      position: relative;
-      z-index: 1;
-    }
-    .title {
-      font-size: 18px;
-      color: rgba(255,255,255,0.95);
-      margin-bottom: 8px;
-      position: relative;
-      z-index: 1;
-    }
-    .subtitle {
-      font-size: 14px;
-      color: rgba(255,255,255,0.8);
-      position: relative;
-      z-index: 1;
-    }
-    .services {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      padding: 24px;
-      color: white;
-    }
-    .service-item {
-      padding: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      font-size: 16px;
-    }
-    .service-item:last-child {
-      border-bottom: none;
-    }
-    .buttons {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .name { font-size: 32px; font-weight: 700; color: white; margin-bottom: 12px; position: relative; z-index: 1; }
+    .title { font-size: 18px; color: rgba(255,255,255,0.95); margin-bottom: 8px; position: relative; z-index: 1; }
+    .subtitle { font-size: 14px; color: rgba(255,255,255,0.8); position: relative; z-index: 1; }
+    .services { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 24px; color: white; }
+    .service-item { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 16px; }
+    .service-item:last-child { border-bottom: none; }
+    .buttons { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      color: white;
-      border: none;
-      cursor: pointer;
-      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 18px; border-radius: 12px; text-decoration: none;
+      font-weight: 600; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s;
+      color: white; border: none; cursor: pointer; width: 100%;
     }
-    .btn:active {
-      transform: scale(0.98);
-    }
+    .btn:active { transform: scale(0.98); }
     .share-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: #06C755;
-      color: white;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(6, 199, 85, 0.4);
-      transition: transform 0.2s;
-      z-index: 1000;
+      position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px;
+      border-radius: 50%; background: #06C755; color: white; border: none;
+      font-size: 24px; cursor: pointer; box-shadow: 0 8px 24px rgba(6,199,85,0.4);
+      transition: transform 0.2s; z-index: 1000;
     }
-    .share-btn:active {
-      transform: scale(0.95);
-    }
+    .share-btn:active { transform: scale(0.95); }
     .dots {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      z-index: 1000;
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 1000;
     }
     .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.3);
+      width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.3);
       transition: background 0.3s;
     }
-    .dot.active {
-      background: #06C755;
-      width: 24px;
-      border-radius: 4px;
-    }
+    .dot.active { background: #06C755; width: 24px; border-radius: 4px; }
     .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: white; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; z-index: 2000;
     }
     .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #06C755;
-      border-radius: 50%;
+      width: 50px; height: 50px; border: 5px solid #f3f3f3;
+      border-top: 5px solid #06C755; border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .loading-text {
-      margin-top: 20px;
-      color: #666;
-      font-size: 16px;
-    }
-    .error {
-      color: #E53E3E;
-      margin-top: 10px;
-      font-size: 14px;
-      text-align: center;
-      padding: 0 20px;
-    }
-    .hidden {
-      display: none !important;
-    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { margin-top: 20px; color: #666; font-size: 16px; }
+    .error { color: #E53E3E; margin-top: 10px; font-size: 14px; text-align: center; padding: 0 20px; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -228,19 +124,16 @@
     <div class="loading-text">載入中...</div>
     <div id="errorMsg" class="error hidden"></div>
   </div>
-
+  
   <div id="container" class="container hidden">
     <div class="cards-wrapper" id="cardsWrapper"></div>
   </div>
-
   <div id="dots" class="dots hidden"></div>
   <button id="shareBtn" class="share-btn hidden">📤</button>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    // ===========================
-    // 設定資料
-    // ===========================
+    // ✅ 設定你的 LIFF ID（這裡一定要換成你自己的）
     const CONFIG = {
       liffId: "2008244337-1PXmZeX4",
       cards: [
@@ -263,12 +156,7 @@
           subtitle: "提供全方位數位解決方案",
           image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=400&fit=crop",
           bgColor: "#1E40AF",
-          services: [
-            "品牌設計與策略",
-            "社群媒體行銷",
-            "網站開發建置",
-            "數位廣告投放"
-          ],
+          services: ["品牌設計與策略", "社群媒體行銷", "網站開發建置", "數位廣告投放"],
           buttons: [
             { label: "📞 立即諮詢", url: "https://line.me/ti/p/~yourlineid", color: "#06C755" }
           ]
@@ -280,9 +168,8 @@
     let isLiffInitialized = false;
 
     function showError(message) {
-      const errorMsg = document.getElementById("errorMsg");
-      errorMsg.textContent = message;
-      errorMsg.classList.remove("hidden");
+      document.getElementById("errorMsg").textContent = message;
+      document.getElementById("errorMsg").classList.remove("hidden");
       document.querySelector(".loading-text").textContent = "載入失敗";
     }
 
@@ -303,7 +190,7 @@
 
         cardEl.innerHTML = `
           <div class="card-content">
-            <div class="card-hero" style="background:${card.bgColor}">
+            <div class="card-hero" style="background: ${card.bgColor}">
               <img src="${card.image}" alt="${card.name}" class="avatar" onerror="this.src='https://via.placeholder.com/140'">
               <h1 class="name">${card.name}</h1>
               <p class="title">${card.title}</p>
@@ -312,11 +199,12 @@
             ${servicesHtml}
             <div class="buttons">
               ${card.buttons.map(btn => `
-                <button class="btn" style="background:${btn.color}" onclick="openUrl('${btn.url}')">${btn.label}</button>
+                <button class="btn" style="background: ${btn.color}" onclick="openUrl('${btn.url}')">${btn.label}</button>
               `).join("")}
             </div>
           </div>
         `;
+
         wrapper.appendChild(cardEl);
 
         const dot = document.createElement("div");
@@ -328,22 +216,20 @@
 
     function setupScrollListener() {
       const container = document.getElementById("container");
-      let scrollTimeout;
       container.addEventListener("scroll", () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          const newIndex = Math.round(container.scrollLeft / window.innerWidth);
-          if (newIndex !== currentCardIndex) {
-            currentCardIndex = newIndex;
-            updateDots();
-          }
-        }, 100);
+        const scrollLeft = container.scrollLeft;
+        const cardWidth = window.innerWidth;
+        const newIndex = Math.round(scrollLeft / cardWidth);
+        if (newIndex !== currentCardIndex) {
+          currentCardIndex = newIndex;
+          updateDots();
+        }
       });
     }
 
     function updateDots() {
-      document.querySelectorAll(".dot").forEach((dot, i) => {
-        dot.classList.toggle("active", i === currentCardIndex);
+      document.querySelectorAll(".dot").forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentCardIndex);
       });
     }
 
@@ -358,7 +244,6 @@
           alert("您的 LINE 版本不支援分享功能");
           return;
         }
-
         const messages = CONFIG.cards.map(card => ({
           type: "flex",
           altText: `${card.name} 的電子名片`,
@@ -375,8 +260,8 @@
               type: "box",
               layout: "vertical",
               contents: [
-                { type: "text", text: card.name, weight: "bold", size: "xl" },
-                { type: "text", text: card.title, size: "sm", color: "#555", margin: "md" }
+                { type: "text", text: card.name, weight: "bold", size: "xl", color: "#1a202c" },
+                { type: "text", text: card.title, size: "sm", color: "#718096", margin: "md" }
               ]
             },
             footer: {
@@ -385,26 +270,20 @@
               contents: card.buttons.map(btn => ({
                 type: "button",
                 style: "primary",
-                action: { type: "uri", label: btn.label, uri: btn.url },
+                action: { type: "uri", label: btn.label.substring(0, 20), uri: btn.url },
                 color: btn.color
               }))
             }
           }
         }));
-
-        try {
-          await liff.shareTargetPicker(messages);
-          alert("✅ 名片已成功分享！");
-        } catch (error) {
-          console.error("Share failed:", error);
-          alert("❌ 分享失敗：" + error.message);
-        }
+        const result = await liff.shareTargetPicker(messages);
+        if (result) alert("✅ 名片已成功分享！");
       });
     }
 
     function openUrl(url) {
       if (isLiffInitialized && liff.isInClient()) {
-        liff.openWindow({ url: url, external: true });
+        liff.openWindow({ url, external: true });
       } else {
         window.open(url, "_blank");
       }
@@ -412,33 +291,23 @@
 
     async function initLiff() {
       try {
-        if (!CONFIG.liffId) throw new Error("⚠️ 尚未設定 LIFF ID");
-        if (typeof liff === "undefined") throw new Error("LIFF SDK 載入失敗");
-
-        console.log("開始初始化 LIFF...");
         await liff.init({ liffId: CONFIG.liffId });
         console.log("✅ LIFF 初始化成功！");
         isLiffInitialized = true;
-
         renderCards();
         document.getElementById("loading").classList.add("hidden");
         document.getElementById("container").classList.remove("hidden");
-
-        if (CONFIG.cards.length > 1) {
-          document.getElementById("dots").classList.remove("hidden");
-          setupScrollListener();
-        }
+        if (CONFIG.cards.length > 1) document.getElementById("dots").classList.remove("hidden");
         document.getElementById("shareBtn").classList.remove("hidden");
         setupShareButton();
+        if (CONFIG.cards.length > 1) setupScrollListener();
       } catch (error) {
-        console.error("LIFF 初始化失敗:", error);
+        console.error("❌ LIFF 初始化失敗:", error);
         showError(error.message || "初始化失敗，請檢查 LIFF ID 是否正確");
       }
     }
 
-    window.addEventListener("load", () => {
-      setTimeout(initLiff, 100);
-    });
+    window.addEventListener("load", initLiff);
   </script>
 </body>
 </html>
