@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- LIFF SDK 所需的 CSP 設定 -->
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self'; 
+                 script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.line-scdn.net; 
+                 connect-src 'self' https://api.line.me https://*.line.me https://liffsdk.line-scdn.net https://access.line.me; 
+                 style-src 'self' 'unsafe-inline'; 
+                 img-src 'self' data: https:; 
+                 font-src 'self' data:;">
+  
   <title>LINE 電子名片</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -202,7 +212,7 @@
         
         script.onerror = (e) => {
           console.error('SDK 腳本載入失敗:', e);
-          reject(new Error('無法載入 LIFF SDK 腳本\n可能原因：\n1. 網路連線問題\n2. 防火牆阻擋\n3. CSP 設定阻擋外部腳本'));
+          reject(new Error('無法載入 LIFF SDK 腳本\n可能原因:\n1. 網路連線問題\n2. 防火牆阻擋\n3. CSP 設定阻擋外部腳本'));
         };
         
         document.head.appendChild(script);
