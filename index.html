@@ -271,6 +271,15 @@
         // ==========================================
         // 配置區域 - 請修改這裡的設定
         // ==========================================
+        window.onload = async () => {
+            try {
+                await liff.init({ liffId: CONFIG.LIFFID });
+                console.log("✅ LIFF 初始化成功！");
+            } catch (err) {
+                console.error("❌ LIFF 初始化失敗：", err);
+            }
+        };
+
         const CONFIG = {
             // 請替換成你的 LIFF ID (從 LINE Developers 取得)
             liffId: '2008244337-1PXmZeX4',
