@@ -9,7 +9,7 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
       background: #f5f5f5;
-      overflow-x: hidden;
+      overflow: hidden;
     }
     .container {
       width: 100vw;
@@ -18,6 +18,7 @@
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
     }
     .cards-wrapper {
       display: flex;
@@ -72,59 +73,170 @@
       position: relative;
       z-index: 1;
     }
-    .name { font-size: 32px; font-weight: 700; color: white; margin-bottom: 12px; position: relative; z-index: 1; }
-    .title { font-size: 18px; color: rgba(255,255,255,0.95); margin-bottom: 8px; position: relative; z-index: 1; }
-    .subtitle { font-size: 14px; color: rgba(255,255,255,0.8); position: relative; z-index: 1; }
-    .services { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 24px; color: white; }
-    .service-item { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 16px; }
-    .service-item:last-child { border-bottom: none; }
-    .buttons { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
-    .btn {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; padding: 18px; border-radius: 12px; text-decoration: none;
-      font-weight: 600; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s;
-      color: white; border: none; cursor: pointer; width: 100%;
+    .name { 
+      font-size: 32px; 
+      font-weight: 700; 
+      color: white; 
+      margin-bottom: 12px; 
+      position: relative; 
+      z-index: 1; 
     }
-    .btn:active { transform: scale(0.98); }
+    .title { 
+      font-size: 18px; 
+      color: rgba(255,255,255,0.95); 
+      margin-bottom: 8px; 
+      position: relative; 
+      z-index: 1; 
+    }
+    .subtitle { 
+      font-size: 14px; 
+      color: rgba(255,255,255,0.8); 
+      position: relative; 
+      z-index: 1; 
+    }
+    .services { 
+      background: rgba(255,255,255,0.1); 
+      backdrop-filter: blur(10px); 
+      padding: 24px; 
+      color: white; 
+    }
+    .service-item { 
+      padding: 16px; 
+      border-bottom: 1px solid rgba(255,255,255,0.2); 
+      font-size: 16px; 
+    }
+    .service-item:last-child { border-bottom: none; }
+    .buttons { 
+      padding: 24px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+    }
+    .btn {
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      gap: 8px; 
+      padding: 18px; 
+      border-radius: 12px; 
+      text-decoration: none;
+      font-weight: 600; 
+      font-size: 16px; 
+      transition: all 0.2s;
+      color: white; 
+      border: none; 
+      cursor: pointer; 
+      width: 100%;
+    }
+    .btn:active { 
+      transform: scale(0.98); 
+      opacity: 0.9;
+    }
+    
+    /* 左右箭頭按鈕 */
+    .nav-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .nav-arrow:active {
+      transform: translateY(-50%) scale(0.9);
+    }
+    .nav-arrow.left {
+      left: 15px;
+    }
+    .nav-arrow.right {
+      right: 15px;
+    }
+    .nav-arrow.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
     .share-btn {
-      position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px;
-      border-radius: 50%; background: #06C755; color: white; border: none;
-      font-size: 24px; cursor: pointer; box-shadow: 0 8px 24px rgba(6,199,85,0.4);
-      transition: transform 0.2s; z-index: 1000;
+      position: fixed; 
+      bottom: 24px; 
+      right: 24px; 
+      width: 64px; 
+      height: 64px;
+      border-radius: 50%; 
+      background: #06C755; 
+      color: white; 
+      border: none;
+      font-size: 24px; 
+      cursor: pointer; 
+      box-shadow: 0 8px 24px rgba(6,199,85,0.4);
+      transition: transform 0.2s; 
+      z-index: 1000;
     }
     .share-btn:active { transform: scale(0.95); }
+    
     .dots {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 8px; z-index: 1000;
+      position: fixed; 
+      bottom: 24px; 
+      left: 50%; 
+      transform: translateX(-50%);
+      display: flex; 
+      gap: 8px; 
+      z-index: 1000;
     }
     .dot {
-      width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.3);
-      transition: background 0.3s;
+      width: 8px; 
+      height: 8px; 
+      border-radius: 50%; 
+      background: rgba(0,0,0,0.3);
+      transition: all 0.3s;
     }
-    .dot.active { background: #06C755; width: 24px; border-radius: 4px; }
+    .dot.active { 
+      background: #06C755; 
+      width: 24px; 
+      border-radius: 4px; 
+    }
+    
     .loading {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: white; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; z-index: 2000;
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      background: white; 
+      display: flex; 
+      flex-direction: column;
+      align-items: center; 
+      justify-content: center; 
+      z-index: 2000;
       padding: 20px;
     }
     .loading-spinner {
-      width: 50px; height: 50px; border: 5px solid #f3f3f3;
-      border-top: 5px solid #06C755; border-radius: 50%;
+      width: 50px; 
+      height: 50px; 
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #06C755; 
+      border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .loading-text { margin-top: 20px; color: #666; font-size: 16px; text-align: center; }
-    .error { 
-      color: #E53E3E; 
+    @keyframes spin { 
+      0% { transform: rotate(0deg); } 
+      100% { transform: rotate(360deg); } 
+    }
+    .loading-text { 
       margin-top: 20px; 
-      font-size: 13px; 
+      color: #666; 
+      font-size: 16px; 
       text-align: center; 
-      padding: 15px 20px;
-      background: #FEE;
-      border-radius: 8px;
-      max-width: 90%;
-      line-height: 1.5;
     }
     .hidden { display: none !important; }
   </style>
@@ -132,13 +244,17 @@
 <body>
   <div id="loading" class="loading">
     <div class="loading-spinner"></div>
-    <div class="loading-text">正在載入 LIFF SDK...</div>
-    <div id="errorMsg" class="error hidden"></div>
+    <div class="loading-text">載入中...</div>
   </div>
   
   <div id="container" class="container hidden">
     <div class="cards-wrapper" id="cardsWrapper"></div>
   </div>
+  
+  <!-- 左右箭頭按鈕 -->
+  <button id="prevBtn" class="nav-arrow left hidden">‹</button>
+  <button id="nextBtn" class="nav-arrow right hidden">›</button>
+  
   <div id="dots" class="dots hidden"></div>
   <button id="shareBtn" class="share-btn hidden">📤</button>
 
@@ -176,12 +292,6 @@
 
     let currentCardIndex = 0;
     let isLiffInitialized = false;
-
-    function showError(message) {
-      document.getElementById("errorMsg").textContent = message;
-      document.getElementById("errorMsg").classList.remove("hidden");
-      document.querySelector(".loading-text").textContent = "載入失敗";
-    }
 
     function renderCards() {
       const wrapper = document.getElementById("cardsWrapper");
@@ -224,15 +334,62 @@
       });
     }
 
-    function setupScrollListener() {
+    function scrollToCard(index) {
       const container = document.getElementById("container");
+      const cardWidth = window.innerWidth;
+      container.scrollTo({
+        left: cardWidth * index,
+        behavior: 'smooth'
+      });
+    }
+
+    function updateNavigation() {
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      
+      if (currentCardIndex === 0) {
+        prevBtn.classList.add("hidden");
+      } else {
+        prevBtn.classList.remove("hidden");
+      }
+      
+      if (currentCardIndex === CONFIG.cards.length - 1) {
+        nextBtn.classList.add("hidden");
+      } else {
+        nextBtn.classList.remove("hidden");
+      }
+      
+      updateDots();
+    }
+
+    function setupNavigation() {
+      const container = document.getElementById("container");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      
+      prevBtn.addEventListener("click", () => {
+        if (currentCardIndex > 0) {
+          currentCardIndex--;
+          scrollToCard(currentCardIndex);
+          updateNavigation();
+        }
+      });
+      
+      nextBtn.addEventListener("click", () => {
+        if (currentCardIndex < CONFIG.cards.length - 1) {
+          currentCardIndex++;
+          scrollToCard(currentCardIndex);
+          updateNavigation();
+        }
+      });
+      
       container.addEventListener("scroll", () => {
         const scrollLeft = container.scrollLeft;
         const cardWidth = window.innerWidth;
         const newIndex = Math.round(scrollLeft / cardWidth);
         if (newIndex !== currentCardIndex) {
           currentCardIndex = newIndex;
-          updateDots();
+          updateNavigation();
         }
       });
     }
@@ -303,48 +460,21 @@
       }
     }
 
-    function checkLiffReady() {
-      return new Promise((resolve, reject) => {
-        let attempts = 0;
-        const maxAttempts = 100; // 10秒
-        
-        const interval = setInterval(() => {
-          attempts++;
-          
-          if (typeof liff !== 'undefined' && liff.init) {
-            clearInterval(interval);
-            console.log("✅ LIFF SDK 已就緒");
-            resolve();
-          } else if (attempts >= maxAttempts) {
-            clearInterval(interval);
-            reject(new Error("LIFF SDK 載入逾時"));
-          }
-          
-          if (attempts % 10 === 0) {
-            console.log(`⏳ 等待 LIFF SDK... (${attempts}/100)`);
-          }
-        }, 100);
-      });
-    }
-
     async function initLiff() {
-      console.log("🔄 開始初始化...");
-      
       try {
         // 等待 LIFF SDK 載入
-        document.querySelector(".loading-text").textContent = "正在載入 LIFF SDK...";
-        await checkLiffReady();
+        let attempts = 0;
+        while (typeof liff === 'undefined' && attempts < 50) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          attempts++;
+        }
+        
+        if (typeof liff === 'undefined') {
+          throw new Error("LIFF SDK 載入失敗");
+        }
         
         // 初始化 LIFF
-        document.querySelector(".loading-text").textContent = "正在初始化 LIFF...";
-        console.log("🚀 初始化 LIFF API...");
-        console.log("📌 LIFF ID:", CONFIG.liffId);
-        
         await liff.init({ liffId: CONFIG.liffId });
-        
-        console.log("✅ LIFF 初始化成功！");
-        console.log("📱 在 LINE 中:", liff.isInClient());
-        console.log("🔐 已登入:", liff.isLoggedIn());
         
         isLiffInitialized = true;
         
@@ -352,45 +482,28 @@
         renderCards();
         document.getElementById("loading").classList.add("hidden");
         document.getElementById("container").classList.remove("hidden");
+        
         if (CONFIG.cards.length > 1) {
           document.getElementById("dots").classList.remove("hidden");
-          setupScrollListener();
+          document.getElementById("prevBtn").classList.remove("hidden");
+          document.getElementById("nextBtn").classList.remove("hidden");
+          setupNavigation();
+          updateNavigation();
         }
+        
         document.getElementById("shareBtn").classList.remove("hidden");
         setupShareButton();
         
       } catch (error) {
-        console.error("❌ 初始化失敗:", error);
-        
-        let errorMsg = "載入失敗\n\n";
-        
-        if (error.message && error.message.includes("逾時")) {
-          errorMsg += "LIFF SDK 無法載入\n\n";
-          errorMsg += "請檢查：\n";
-          errorMsg += "1. 網路連線是否正常\n";
-          errorMsg += "2. 是否在 LINE App 中開啟\n";
-          errorMsg += "3. 嘗試重新整理頁面";
-        } else if (error.code === "400") {
-          errorMsg += "LIFF 設定錯誤\n\n";
-          errorMsg += "請確認 LINE Developers Console 中：\n";
-          errorMsg += "• LIFF ID 是否正確\n";
-          errorMsg += "• Endpoint URL 設為:\n";
-          errorMsg += "  https://line-card.vercel.app";
-        } else {
-          errorMsg += error.message || "未知錯誤";
-          errorMsg += "\n\n請嘗試重新整理頁面";
-        }
-        
-        showError(errorMsg);
+        console.error("初始化失敗:", error);
+        document.querySelector(".loading-text").textContent = "載入失敗：" + error.message;
       }
     }
 
-    // 頁面載入完成後初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initLiff);
-    } else {
-      setTimeout(initLiff, 100);
-    }
+    // 頁面載入後初始化
+    window.addEventListener("load", () => {
+      setTimeout(initLiff, 300);
+    });
   </script>
 </body>
 </html>

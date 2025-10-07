@@ -4,16 +4,32 @@
       "source": "/(.*)",
       "headers": [
         {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://*.line.me https://*.line-apps.com https://*.line-scdn.net; default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https://static.line-scdn.net; connect-src *;"
+        },
+        {
           "key": "X-Frame-Options",
           "value": "ALLOWALL"
         },
         {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://*.line.me https://*.line-apps.com https://*.line-scdn.net"
-        },
-        {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "*"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "unsafe-none"
         }
       ]
     }
