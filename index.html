@@ -2,25 +2,8 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📇 張小明 | 數位行銷顧問</title>
-    
-    <!-- Open Graph 標籤 - LINE 預覽卡片的關鍵 -->
-    <meta property="og:title" content="📇 張小明 | 數位行銷顧問" />
-    <meta property="og:description" content="專業品牌策劃 · 社群行銷 · 數位轉型諮詢 | 讓您的品牌在數位時代脫穎而出" />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&h=630&fit=crop" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://achillean807.github.io/line-card/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="張小明數位名片" />
-    
-    <!-- Twitter Card (有些平台也會參考) -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="📇 張小明 | 數位行銷顧問" />
-    <meta name="twitter:description" content="專業品牌策劃 · 社群行銷 · 數位轉型諮詢" />
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&h=630&fit=crop" />
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LINE 電子名片</title>
     <style>
         * {
             margin: 0;
@@ -30,44 +13,52 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .cards-wrapper {
             display: flex;
+            height: 100%;
+        }
+        
+        .card {
+            min-width: 100vw;
+            height: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
         
-        .card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 480px;
+        .card-content {
             width: 100%;
+            max-width: 480px;
+            border-radius: 24px;
             overflow: hidden;
-            animation: slideUp 0.6s ease-out;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: white;
         }
         
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .hero {
-            background: linear-gradient(135deg, #005BAC 0%, #0077CC 100%);
-            padding: 40px 30px 30px;
+        .card-hero {
+            padding: 60px 30px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
         
-        .hero::before {
+        .card-hero::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -84,88 +75,62 @@
         }
         
         .avatar {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             border: 5px solid white;
             object-fit: cover;
-            margin: 0 auto 20px;
+            margin: 0 auto 24px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             position: relative;
             z-index: 1;
         }
         
         .name {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: white;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             position: relative;
             z-index: 1;
         }
         
         .title {
-            font-size: 16px;
-            color: rgba(255,255,255,0.9);
+            font-size: 18px;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 8px;
             position: relative;
             z-index: 1;
         }
         
-        .content {
-            padding: 30px;
-        }
-        
-        .section-title {
+        .subtitle {
             font-size: 14px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: rgba(255,255,255,0.8);
+            position: relative;
+            z-index: 1;
         }
         
         .services {
-            display: grid;
-            gap: 12px;
-            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            color: white;
         }
         
         .service-item {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 16px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 16px;
         }
         
-        .service-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .service-icon {
-            font-size: 24px;
-        }
-        
-        .service-text {
-            flex: 1;
-        }
-        
-        .service-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-        
-        .service-desc {
-            font-size: 13px;
-            color: #666;
+        .service-item:last-child {
+            border-bottom: none;
         }
         
         .buttons {
-            display: grid;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
             gap: 12px;
         }
         
@@ -174,105 +139,451 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 16px;
+            padding: 18px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
             transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+            border: none;
             cursor: pointer;
+            width: 100%;
         }
         
         .btn:active {
             transform: scale(0.98);
         }
         
-        .btn-primary {
+        .share-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
             background: #06C755;
             color: white;
-            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(6, 199, 85, 0.4);
+            transition: transform 0.2s;
+            z-index: 1000;
         }
         
-        .btn-primary:hover {
-            box-shadow: 0 6px 20px rgba(6, 199, 85, 0.4);
-            transform: translateY(-2px);
+        .share-btn:active {
+            transform: scale(0.95);
         }
         
-        .btn-secondary {
+        .dots {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.3);
+            transition: background 0.3s;
+        }
+        
+        .dot.active {
+            background: #06C755;
+            width: 24px;
+            border-radius: 4px;
+        }
+        
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: white;
-            color: #005BAC;
-            border: 2px solid #005BAC;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
         }
         
-        .btn-secondary:hover {
-            background: #f8f9fa;
-            transform: translateY(-2px);
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #06C755;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
         
-        .footer {
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .error {
+            color: #E53E3E;
+            margin-top: 10px;
+            font-size: 14px;
             text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 13px;
+            padding: 0 20px;
+        }
+        
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="hero">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop" alt="張小明" class="avatar">
-            <h1 class="name">張小明</h1>
-            <p class="title">數位行銷顧問 | Digital Marketing Consultant</p>
-        </div>
-        
-        <div class="content">
-            <h2 class="section-title">🎯 專業服務</h2>
-            <div class="services">
-                <div class="service-item">
-                    <span class="service-icon">📱</span>
-                    <div class="service-text">
-                        <div class="service-name">社群媒體行銷</div>
-                        <div class="service-desc">FB, IG, LINE 全通路策略</div>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <span class="service-icon">🎨</span>
-                    <div class="service-text">
-                        <div class="service-name">品牌視覺設計</div>
-                        <div class="service-desc">LOGO、名片、網站設計</div>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <span class="service-icon">📊</span>
-                    <div class="service-text">
-                        <div class="service-name">數據分析優化</div>
-                        <div class="service-desc">GA4、廣告投放成效追蹤</div>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <span class="service-icon">💡</span>
-                    <div class="service-text">
-                        <div class="service-name">數位轉型諮詢</div>
-                        <div class="service-desc">企業流程數位化規劃</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="buttons">
-                <a href="https://line.me/ti/p/~test" class="btn btn-primary">
-                    <span>💬</span>
-                    <span>加入 LINE 好友</span>
-                </a>
-                <a href="#contact" class="btn btn-secondary">
-                    <span>📧</span>
-                    <span>查看完整作品集</span>
-                </a>
-            </div>
-        </div>
-        
-        <div class="footer">
-            ✨ 讓我們一起打造您的數位品牌影響力
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">載入中...</div>
+        <div id="errorMsg" class="error hidden"></div>
+    </div>
+    
+    <div id="container" class="container hidden">
+        <div class="cards-wrapper" id="cardsWrapper">
+            <!-- Cards will be dynamically inserted here -->
         </div>
     </div>
+    
+    <div id="dots" class="dots hidden"></div>
+    
+    <button id="shareBtn" class="share-btn hidden">
+        📤
+    </button>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        // ==========================================
+        // 配置區域 - 請修改這裡的設定
+        // ==========================================
+        const CONFIG = {
+            // 請替換成你的 LIFF ID (從 LINE Developers 取得)
+            liffId: '2008244337-1PXmZeX4',
+            
+            // 名片資料 - 可以有多張卡片
+            cards: [
+                {
+                    id: 1,
+                    name: '秦天霸',
+                    title: '村長',
+                    subtitle: 'Digital Marketing Consultant',
+                    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop',
+                    bgColor: '#005BAC',
+                    buttons: [
+                        { 
+                            label: '💬 加入 LINE', 
+                            url: 'https://line.me/ti/p/achillean', 
+                            color: '#06C755' 
+                        },
+                        { 
+                            label: '🌐 查看作品集', 
+                            url: 'https://www.weddingwishlove.com/category/post_weddingblog/', 
+                            color: '#4A5568' 
+                        }
+                    ]
+                },
+                // 可以繼續新增更多卡片
+                {
+                    id: 2,
+                    name: '服務項目',
+                    title: 'SOLUTIONS',
+                    subtitle: '提供全方位數位解決方案',
+                    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=400&fit=crop',
+                    bgColor: '#1E40AF',
+                    services: [
+                        '品牌設計與策略',
+                        '社群媒體行銷',
+                        '網站開發建置',
+                        '數位廣告投放'
+                    ],
+                    buttons: [
+                        { 
+                            label: '📞 立即諮詢', 
+                            url: 'https://line.me/ti/p/~yourlineid', 
+                            color: '#06C755' 
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // ==========================================
+        // 主程式 - 不需要修改
+        // ==========================================
+        let currentCardIndex = 0;
+        let isLiffInitialized = false;
+
+        // 顯示錯誤訊息
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = message;
+            errorMsg.classList.remove('hidden');
+            document.querySelector('.loading-text').textContent = '載入失敗';
+        }
+
+        // 渲染所有卡片
+        function renderCards() {
+            const wrapper = document.getElementById('cardsWrapper');
+            const dotsContainer = document.getElementById('dots');
+            
+            wrapper.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            CONFIG.cards.forEach((card, index) => {
+                // 建立卡片元素
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                cardEl.dataset.index = index;
+                
+                const servicesHtml = card.services ? `
+                    <div class="services" style="background: rgba(255,255,255,0.1);">
+                        ${card.services.map(service => `
+                            <div class="service-item">• ${service}</div>
+                        `).join('')}
+                    </div>
+                ` : '';
+                
+                cardEl.innerHTML = `
+                    <div class="card-content">
+                        <div class="card-hero" style="background: ${card.bgColor}">
+                            <img src="${card.image}" alt="${card.name}" class="avatar" onerror="this.src='https://via.placeholder.com/140'">
+                            <h1 class="name">${card.name}</h1>
+                            <p class="title">${card.title}</p>
+                            ${card.subtitle ? `<p class="subtitle">${card.subtitle}</p>` : ''}
+                        </div>
+                        ${servicesHtml}
+                        <div class="buttons">
+                            ${card.buttons.map((btn, btnIndex) => `
+                                <button class="btn" style="background: ${btn.color}" 
+                                    onclick="openUrl('${btn.url}')">
+                                    ${btn.label}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                wrapper.appendChild(cardEl);
+                
+                // 建立指示點
+                const dot = document.createElement('div');
+                dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                dot.dataset.index = index;
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // 設定滾動監聽器
+        function setupScrollListener() {
+            const container = document.getElementById('container');
+            let scrollTimeout;
+            
+            container.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const scrollLeft = container.scrollLeft;
+                    const cardWidth = window.innerWidth;
+                    const newIndex = Math.round(scrollLeft / cardWidth);
+                    
+                    if (newIndex !== currentCardIndex) {
+                        currentCardIndex = newIndex;
+                        updateDots();
+                    }
+                }, 100);
+            });
+        }
+
+        // 更新指示點
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                if (index === currentCardIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // 設定分享按鈕
+        function setupShareButton() {
+            const shareBtn = document.getElementById('shareBtn');
+            
+            shareBtn.addEventListener('click', async () => {
+                try {
+                    // 檢查是否在 LINE 中
+                    if (!liff.isInClient()) {
+                        alert('請在 LINE App 中開啟此頁面才能使用分享功能');
+                        return;
+                    }
+
+                    // 檢查是否支援分享功能
+                    if (!liff.isApiAvailable('shareTargetPicker')) {
+                        alert('您的 LINE 版本不支援此分享功能，請更新到最新版本');
+                        return;
+                    }
+                    
+                    // 建立分享訊息（Flex Message）
+                    const messages = CONFIG.cards.map(card => {
+                        const bubbleContents = {
+                            type: 'bubble',
+                            hero: {
+                                type: 'box',
+                                layout: 'vertical',
+                                contents: [
+                                    {
+                                        type: 'image',
+                                        url: card.image,
+                                        size: 'full',
+                                        aspectRatio: '1:1',
+                                        aspectMode: 'cover'
+                                    }
+                                ],
+                                backgroundColor: card.bgColor,
+                                paddingAll: '0px'
+                            },
+                            body: {
+                                type: 'box',
+                                layout: 'vertical',
+                                contents: [
+                                    {
+                                        type: 'text',
+                                        text: card.name,
+                                        weight: 'bold',
+                                        size: 'xl',
+                                        color: '#1a202c'
+                                    },
+                                    {
+                                        type: 'text',
+                                        text: card.title,
+                                        size: 'sm',
+                                        color: '#718096',
+                                        margin: 'md'
+                                    }
+                                ],
+                                spacing: 'sm',
+                                paddingAll: '20px'
+                            },
+                            footer: {
+                                type: 'box',
+                                layout: 'vertical',
+                                spacing: 'sm',
+                                contents: card.buttons.map(btn => ({
+                                    type: 'button',
+                                    style: 'primary',
+                                    height: 'sm',
+                                    action: {
+                                        type: 'uri',
+                                        label: btn.label.replace(/[^\w\s\u4e00-\u9fa5]/g, '').substring(0, 20),
+                                        uri: btn.url
+                                    },
+                                    color: btn.color
+                                })),
+                                paddingAll: '20px'
+                            }
+                        };
+
+                        return {
+                            type: 'flex',
+                            altText: `${card.name} 的電子名片`,
+                            contents: bubbleContents
+                        };
+                    });
+                    
+                    const result = await liff.shareTargetPicker(messages);
+                    
+                    if (result) {
+                        alert('✅ 名片已成功分享！');
+                    }
+                } catch (error) {
+                    console.error('Share failed:', error);
+                    alert('❌ 分享失敗：' + error.message);
+                }
+            });
+        }
+
+        // 開啟網址
+        function openUrl(url) {
+            if (isLiffInitialized && liff.isInClient()) {
+                liff.openWindow({
+                    url: url,
+                    external: true
+                });
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        // 初始化 LIFF
+        async function initLiff() {
+            try {
+                // 檢查 LIFF ID
+                if (!CONFIG.liffId || CONFIG.liffId === 'YOUR_LIFF_ID_HERE') {
+                    throw new Error('請先設定 LIFF ID！\n請到 LINE Developers 建立 LIFF App 並取得 LIFF ID');
+                }
+
+                // 檢查 liff 是否載入
+                if (typeof liff === 'undefined') {
+                    throw new Error('LIFF SDK 載入失敗，請重新整理頁面');
+                }
+
+                console.log('開始初始化 LIFF...');
+                await liff.init({ liffId: CONFIG.liffId });
+                console.log('LIFF 初始化成功！');
+                
+                isLiffInitialized = true;
+                
+                // 渲染卡片
+                renderCards();
+                
+                // 隱藏載入畫面，顯示內容
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('container').classList.remove('hidden');
+                
+                // 只有在多張卡片時才顯示指示點
+                if (CONFIG.cards.length > 1) {
+                    document.getElementById('dots').classList.remove('hidden');
+                }
+                
+                // 顯示分享按鈕
+                document.getElementById('shareBtn').classList.remove('hidden');
+                
+                // 設定分享按鈕
+                setupShareButton();
+                
+                // 設定滾動監聽
+                if (CONFIG.cards.length > 1) {
+                    setupScrollListener();
+                }
+                
+            } catch (error) {
+                console.error('LIFF 初始化失敗:', error);
+                showError(error.message || '初始化失敗，請檢查 LIFF ID 是否正確');
+            }
+        }
+
+        // 頁面載入完成後初始化
+        window.addEventListener('load', () => {
+            // 給 LIFF SDK 一點時間載入
+            setTimeout(() => {
+                initLiff();
+            }, 100);
+        });
+    </script>
 </body>
 </html>
