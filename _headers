@@ -1,0 +1,6 @@
+/*
+  X-Frame-Options: ALLOWALL
+  Access-Control-Allow-Origin: *
+  Content-Security-Policy: frame-ancestors 'self' https://*.line.me https://*.line-apps.com https://*.line-scdn.net
+  Cross-Origin-Resource-Policy: cross-origin
+  Cross-Origin-Embedder-Policy: unsafe-none
