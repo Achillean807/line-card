@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📇 張小明 | 數位行銷顧問</title>
+    
+    <!-- Open Graph 標籤 - LINE 預覽卡片的關鍵 -->
+    <meta property="og:title" content="📇 張小明 | 數位行銷顧問" />
+    <meta property="og:description" content="專業品牌策劃 · 社群行銷 · 數位轉型諮詢 | 讓您的品牌在數位時代脫穎而出" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&h=630&fit=crop" />
+    <meta property="og:type" content="profile" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 480px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #005BAC 0%, #0077CC 100%);
+            padding: 40px 30px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, 20px) rotate(5deg); }
+        }
+        
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .title {
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .services {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .service-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .service-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 24px;
+        }
+        
+        .service-text {
+            flex: 1;
+        }
+        
+        .service-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .service-desc {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .buttons {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary {
+            background: #06C755;
+            color: white;
+            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(6, 199, 85, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #005BAC;
+            border: 2px solid #005BAC;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="hero">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop" alt="張小明" class="avatar">
+            <h1 class="name">張小明</h1>
+            <p class="title">數位行銷顧問 | Digital Marketing Consultant</p>
+        </div>
+        
+        <div class="content">
+            <h2 class="section-title">🎯 專業服務</h2>
+            <div class="services">
+                <div class="service-item">
+                    <span class="service-icon">📱</span>
+                    <div class="service-text">
+                        <div class="service-name">社群媒體行銷</div>
+                        <div class="service-desc">FB, IG, LINE 全通路策略</div>
+                    </div>
+                </div>
+                <div class="service-item">
+                    <span class="service-icon">🎨</span>
+                    <div class="service-text">
+                        <div class="service-name">品牌視覺設計</div>
+                        <div class="service-desc">LOGO、名片、網站設計</div>
+                    </div>
+                </div>
+                <div class="service-item">
+                    <span class="service-icon">📊</span>
+                    <div class="service-text">
+                        <div class="service-name">數據分析優化</div>
+                        <div class="service-desc">GA4、廣告投放成效追蹤</div>
+                    </div>
+                </div>
+                <div class="service-item">
+                    <span class="service-icon">💡</span>
+                    <div class="service-text">
+                        <div class="service-name">數位轉型諮詢</div>
+                        <div class="service-desc">企業流程數位化規劃</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <a href="https://line.me/ti/p/~test" class="btn btn-primary">
+                    <span>💬</span>
+                    <span>加入 LINE 好友</span>
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <span>📧</span>
+                    <span>查看完整作品集</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            ✨ 讓我們一起打造您的數位品牌影響力
+        </div>
+    </div>
+</body>
+</html>
