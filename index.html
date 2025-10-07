@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LINE 電子名片</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,17 +16,17 @@
       height: 100vh;
       overflow-x: auto;
       overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
+      display: none;
     }
+    .container.show { display: block; }
     .cards-wrapper { display: flex; height: 100%; }
     .card {
       min-width: 100vw;
       height: 100%;
       scroll-snap-align: start;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
@@ -42,8 +42,6 @@
     .card-hero {
       padding: 60px 30px 40px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
     .avatar {
       width: 140px;
@@ -53,23 +51,25 @@
       object-fit: cover;
       margin: 0 auto 24px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
     }
-    .name { font-size: 32px; font-weight: 700; color: white; margin-bottom: 12px; z-index: 1; position: relative; }
-    .title { font-size: 18px; color: rgba(255,255,255,0.95); margin-bottom: 8px; z-index: 1; position: relative; }
-    .subtitle { font-size: 14px; color: rgba(255,255,255,0.8); z-index: 1; position: relative; }
-    .services { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 24px; color: white; }
-    .service-item { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 16px; }
+    .name { font-size: 32px; font-weight: 700; color: white; margin-bottom: 12px; }
+    .title { font-size: 18px; color: rgba(255,255,255,0.95); margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: rgba(255,255,255,0.8); }
+    .services { background: rgba(255,255,255,0.1); padding: 24px; color: white; }
+    .service-item { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); }
     .service-item:last-child { border-bottom: none; }
     .buttons { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
     .btn {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; padding: 18px; border-radius: 12px;
-      font-weight: 600; font-size: 16px; transition: all 0.2s;
-      color: white; border: none; cursor: pointer; width: 100%;
+      padding: 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    .btn:active { transform: scale(0.98); opacity: 0.9; }
+    .btn:active { transform: scale(0.98); }
     .nav-arrow {
       position: fixed;
       top: 50%;
@@ -83,311 +83,277 @@
       cursor: pointer;
       z-index: 1000;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
+      display: none;
     }
-    .nav-arrow:active { transform: translateY(-50%) scale(0.9); }
+    .nav-arrow.show { display: block; }
     .nav-arrow.left { left: 15px; }
     .nav-arrow.right { right: 15px; }
-    .nav-arrow.hidden { opacity: 0; pointer-events: none; }
     .share-btn {
-      position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px;
-      border-radius: 50%; background: #06C755; color: white; border: none;
-      font-size: 24px; cursor: pointer; box-shadow: 0 8px 24px rgba(6,199,85,0.4);
-      transition: transform 0.2s; z-index: 1000;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #06C755;
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(6,199,85,0.4);
+      z-index: 1000;
+      display: none;
     }
-    .share-btn:active { transform: scale(0.95); }
+    .share-btn.show { display: block; }
     .dots {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 8px; z-index: 1000;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      gap: 8px;
+      z-index: 1000;
     }
+    .dots.show { display: flex; }
     .dot {
-      width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.3);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.3);
       transition: all 0.3s;
     }
     .dot.active { background: #06C755; width: 24px; border-radius: 4px; }
     .loading {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: white; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
     }
+    .loading.hide { display: none; }
     .loading-spinner {
-      width: 50px; height: 50px; border: 5px solid #f3f3f3;
-      border-top: 5px solid #06C755; border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #06C755;
+      border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { margin-top: 20px; color: #666; font-size: 14px; text-align: center; }
-    .hidden { display: none !important; }
+    .error-text { margin-top: 15px; color: #e53e3e; font-size: 12px; max-width: 350px; text-align: center; line-height: 1.5; white-space: pre-line; }
   </style>
 </head>
 <body>
   <div id="loading" class="loading">
     <div class="loading-spinner"></div>
-    <div class="loading-text">載入 LIFF SDK...</div>
+    <div class="loading-text">初始化中...</div>
+    <div id="error" class="error-text"></div>
   </div>
   
-  <div id="container" class="container hidden">
+  <div id="container" class="container">
     <div class="cards-wrapper" id="cardsWrapper"></div>
   </div>
   
-  <button id="prevBtn" class="nav-arrow left hidden">‹</button>
-  <button id="nextBtn" class="nav-arrow right hidden">›</button>
-  <div id="dots" class="dots hidden"></div>
-  <button id="shareBtn" class="share-btn hidden">📤</button>
+  <button id="prevBtn" class="nav-arrow left">‹</button>
+  <button id="nextBtn" class="nav-arrow right">›</button>
+  <div id="dots" class="dots"></div>
+  <button id="shareBtn" class="share-btn">📤</button>
 
   <script>
-    (function() {
-      const CONFIG = {
-        liffId: "2008244337-1PXmZeX4",
-        cards: [
-          {
-            id: 1,
-            name: "秦天霸",
-            title: "村長",
-            subtitle: "Digital Marketing Consultant",
-            image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
-            bgColor: "#005BAC",
-            buttons: [
-              { label: "💬 加入 LINE", url: "https://line.me/ti/p/achillean", color: "#06C755" },
-              { label: "🌐 查看作品集", url: "https://www.weddingwishlove.com/category/post_weddingblog/", color: "#4A5568" }
-            ]
-          },
-          {
-            id: 2,
-            name: "服務項目",
-            title: "SOLUTIONS",
-            subtitle: "提供全方位數位解決方案",
-            image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=400&fit=crop",
-            bgColor: "#1E40AF",
-            services: ["品牌設計與策略", "社群媒體行銷", "網站開發建置", "數位廣告投放"],
-            buttons: [
-              { label: "📞 立即諮詢", url: "https://line.me/ti/p/~yourlineid", color: "#06C755" }
-            ]
-          }
-        ]
-      };
-
-      let currentCardIndex = 0;
-      let isLiffReady = false;
-
-      function loadLiffSDK() {
-        return new Promise((resolve, reject) => {
-          if (typeof liff !== 'undefined') {
-            resolve();
-            return;
-          }
-          
-          const script = document.createElement('script');
-          script.src = 'https://static.line-scdn.net/liff/edge/2/sdk.js';
-          script.onload = () => {
-            let attempts = 0;
-            const checkInterval = setInterval(() => {
-              attempts++;
-              if (typeof liff !== 'undefined') {
-                clearInterval(checkInterval);
-                resolve();
-              } else if (attempts > 30) {
-                clearInterval(checkInterval);
-                reject(new Error('LIFF SDK 載入逾時'));
-              }
-            }, 200);
-          };
-          script.onerror = () => reject(new Error('無法載入 LIFF SDK 腳本'));
-          document.head.appendChild(script);
-        });
-      }
-
-      function renderCards() {
-        const wrapper = document.getElementById("cardsWrapper");
-        const dotsContainer = document.getElementById("dots");
-        wrapper.innerHTML = "";
-        dotsContainer.innerHTML = "";
-
-        CONFIG.cards.forEach((card, index) => {
-          const cardEl = document.createElement("div");
-          cardEl.className = "card";
-
-          const servicesHtml = card.services
-            ? `<div class="services">${card.services.map(s => `<div class="service-item">• ${s}</div>`).join("")}</div>`
-            : "";
-
-          cardEl.innerHTML = `
-            <div class="card-content">
-              <div class="card-hero" style="background: ${card.bgColor}">
-                <img src="${card.image}" alt="${card.name}" class="avatar">
-                <h1 class="name">${card.name}</h1>
-                <p class="title">${card.title}</p>
-                ${card.subtitle ? `<p class="subtitle">${card.subtitle}</p>` : ""}
-              </div>
-              ${servicesHtml}
-              <div class="buttons">
-                ${card.buttons.map((btn, i) => `
-                  <button class="btn" style="background: ${btn.color}" data-url="${btn.url}">${btn.label}</button>
-                `).join("")}
-              </div>
-            </div>
-          `;
-
-          wrapper.appendChild(cardEl);
-
-          const dot = document.createElement("div");
-          dot.className = `dot ${index === 0 ? "active" : ""}`;
-          dotsContainer.appendChild(dot);
-        });
-
-        // 綁定按鈕點擊事件
-        document.querySelectorAll('.btn').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const url = this.getAttribute('data-url');
-            if (isLiffReady && typeof liff !== 'undefined' && liff.isInClient()) {
-              liff.openWindow({ url, external: true });
-            } else {
-              window.open(url, '_blank');
-            }
-          });
-        });
-      }
-
-      function scrollToCard(index) {
-        const container = document.getElementById("container");
-        container.scrollTo({
-          left: window.innerWidth * index,
-          behavior: 'smooth'
-        });
-      }
-
-      function updateNavigation() {
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
+    // 動態載入 LIFF SDK
+    function loadLiffSDK() {
+      return new Promise((resolve, reject) => {
+        console.log('開始載入 LIFF SDK...');
         
-        prevBtn.classList.toggle("hidden", currentCardIndex === 0);
-        nextBtn.classList.toggle("hidden", currentCardIndex === CONFIG.cards.length - 1);
-        
-        document.querySelectorAll(".dot").forEach((dot, index) => {
-          dot.classList.toggle("active", index === currentCardIndex);
-        });
-      }
-
-      function setupNavigation() {
-        const container = document.getElementById("container");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-        
-        prevBtn.addEventListener("click", () => {
-          if (currentCardIndex > 0) {
-            currentCardIndex--;
-            scrollToCard(currentCardIndex);
-            updateNavigation();
-          }
-        });
-        
-        nextBtn.addEventListener("click", () => {
-          if (currentCardIndex < CONFIG.cards.length - 1) {
-            currentCardIndex++;
-            scrollToCard(currentCardIndex);
-            updateNavigation();
-          }
-        });
-        
-        container.addEventListener("scroll", () => {
-          const newIndex = Math.round(container.scrollLeft / window.innerWidth);
-          if (newIndex !== currentCardIndex) {
-            currentCardIndex = newIndex;
-            updateNavigation();
-          }
-        });
-      }
-
-      function setupShare() {
-        const shareBtn = document.getElementById("shareBtn");
-        shareBtn.addEventListener("click", async () => {
-          if (!isLiffReady || typeof liff === 'undefined') {
-            alert("LIFF 未初始化");
-            return;
-          }
-          if (!liff.isInClient()) {
-            alert("請在 LINE App 中開啟");
-            return;
-          }
-          if (!liff.isApiAvailable("shareTargetPicker")) {
-            alert("您的 LINE 版本不支援分享功能");
-            return;
-          }
-          try {
-            const messages = CONFIG.cards.map(card => ({
-              type: "flex",
-              altText: `${card.name} 的電子名片`,
-              contents: {
-                type: "bubble",
-                hero: { type: "image", url: card.image, size: "full", aspectRatio: "1:1", aspectMode: "cover" },
-                body: {
-                  type: "box",
-                  layout: "vertical",
-                  contents: [
-                    { type: "text", text: card.name, weight: "bold", size: "xl" },
-                    { type: "text", text: card.title, size: "sm", color: "#718096", margin: "md" }
-                  ]
-                },
-                footer: {
-                  type: "box",
-                  layout: "vertical",
-                  contents: card.buttons.map(btn => ({
-                    type: "button",
-                    style: "primary",
-                    action: { type: "uri", label: btn.label.substring(0, 20), uri: btn.url },
-                    color: btn.color
-                  }))
-                }
-              }
-            }));
-            await liff.shareTargetPicker(messages);
-            alert("✅ 分享成功！");
-          } catch (error) {
-            alert("分享失敗：" + error.message);
-          }
-        });
-      }
-
-      async function init() {
-        try {
-          document.querySelector('.loading-text').textContent = '載入 LIFF SDK...';
-          await loadLiffSDK();
-          
-          document.querySelector('.loading-text').textContent = '初始化 LIFF...';
-          await liff.init({ liffId: CONFIG.liffId });
-          
-          isLiffReady = true;
-          
-          renderCards();
-          document.getElementById("loading").classList.add("hidden");
-          document.getElementById("container").classList.remove("hidden");
-          
-          if (CONFIG.cards.length > 1) {
-            document.getElementById("dots").classList.remove("hidden");
-            document.getElementById("prevBtn").classList.remove("hidden");
-            document.getElementById("nextBtn").classList.remove("hidden");
-            setupNavigation();
-            updateNavigation();
-          }
-          
-          document.getElementById("shareBtn").classList.remove("hidden");
-          setupShare();
-          
-        } catch (error) {
-          console.error("初始化失敗:", error);
-          document.querySelector('.loading-text').textContent = '載入失敗：' + error.message + '\n\n請確認：\n1. 在 LINE App 中開啟\n2. 網路連線正常\n3. LIFF ID 正確';
+        if (typeof liff !== 'undefined') {
+          console.log('LIFF SDK 已存在');
+          resolve();
+          return;
         }
-      }
+        
+        const script = document.createElement('script');
+        script.src = 'https://static.line-scdn.net/liff/edge/2/sdk.js';
+        script.charset = 'utf-8';
+        script.crossOrigin = 'anonymous';
+        
+        script.onload = () => {
+          console.log('SDK 腳本已載入，等待初始化...');
+          let attempts = 0;
+          const checkInterval = setInterval(() => {
+            attempts++;
+            if (typeof liff !== 'undefined') {
+              clearInterval(checkInterval);
+              console.log('✅ LIFF SDK 已就緒');
+              resolve();
+            } else if (attempts > 50) {
+              clearInterval(checkInterval);
+              reject(new Error('SDK 載入後仍未定義'));
+            }
+          }, 100);
+        };
+        
+        script.onerror = (e) => {
+          console.error('SDK 腳本載入失敗:', e);
+          reject(new Error('無法載入 LIFF SDK 腳本\n可能原因：\n1. 網路連線問題\n2. 防火牆阻擋\n3. CSP 設定阻擋外部腳本'));
+        };
+        
+        document.head.appendChild(script);
+        console.log('SDK 腳本已添加到 head');
+      });
+    }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
+    const LIFF_ID = "2008244337-1PXmZeX4";
+    const CARDS = [
+      {
+        name: "秦天霸",
+        title: "村長",
+        subtitle: "Digital Marketing Consultant",
+        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
+        bgColor: "#005BAC",
+        buttons: [
+          { label: "💬 加入 LINE", url: "https://line.me/ti/p/achillean", color: "#06C755" },
+          { label: "🌐 查看作品集", url: "https://www.weddingwishlove.com/category/post_weddingblog/", color: "#4A5568" }
+        ]
+      },
+      {
+        name: "服務項目",
+        title: "SOLUTIONS",
+        subtitle: "提供全方位數位解決方案",
+        image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=400&fit=crop",
+        bgColor: "#1E40AF",
+        services: ["品牌設計與策略", "社群媒體行銷", "網站開發建置", "數位廣告投放"],
+        buttons: [{ label: "📞 立即諮詢", url: "https://line.me/ti/p/~yourlineid", color: "#06C755" }]
       }
-    })();
+    ];
+
+    let currentIndex = 0;
+    let liffReady = false;
+
+    function render() {
+      const wrapper = document.getElementById('cardsWrapper');
+      const dotsContainer = document.getElementById('dots');
+      
+      CARDS.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card';
+        
+        const services = card.services 
+          ? `<div class="services">${card.services.map(s => `<div class="service-item">• ${s}</div>`).join('')}</div>`
+          : '';
+        
+        cardEl.innerHTML = `
+          <div class="card-content">
+            <div class="card-hero" style="background: ${card.bgColor}">
+              <img src="${card.image}" alt="${card.name}" class="avatar">
+              <h1 class="name">${card.name}</h1>
+              <p class="title">${card.title}</p>
+              <p class="subtitle">${card.subtitle}</p>
+            </div>
+            ${services}
+            <div class="buttons">
+              ${card.buttons.map(btn => `
+                <button class="btn" style="background: ${btn.color}" onclick="handleClick('${btn.url}')">${btn.label}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        
+        wrapper.appendChild(cardEl);
+        
+        const dot = document.createElement('div');
+        dot.className = `dot ${index === 0 ? 'active' : ''}`;
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function handleClick(url) {
+      if (liffReady && liff.isInClient()) {
+        liff.openWindow({ url, external: true });
+      } else {
+        window.open(url, '_blank');
+      }
+    }
+
+    function setupNav() {
+      const container = document.getElementById('container');
+      const prev = document.getElementById('prevBtn');
+      const next = document.getElementById('nextBtn');
+      
+      function scroll(index) {
+        container.scrollTo({ left: window.innerWidth * index, behavior: 'smooth' });
+      }
+      
+      function update() {
+        document.querySelectorAll('.dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+      
+      prev.onclick = () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          scroll(currentIndex);
+          update();
+        }
+      };
+      
+      next.onclick = () => {
+        if (currentIndex < CARDS.length - 1) {
+          currentIndex++;
+          scroll(currentIndex);
+          update();
+        }
+      };
+      
+      container.addEventListener('scroll', () => {
+        const newIndex = Math.round(container.scrollLeft / window.innerWidth);
+        if (newIndex !== currentIndex) {
+          currentIndex = newIndex;
+          update();
+        }
+      });
+    }
+
+    async function main() {
+      try {
+        document.querySelector('.loading-text').textContent = '載入 SDK...';
+        await loadLiffSDK();
+        
+        document.querySelector('.loading-text').textContent = '初始化 LIFF...';
+        await liff.init({ liffId: LIFF_ID });
+        
+        console.log('✅ 初始化成功');
+        liffReady = true;
+        
+        render();
+        
+        document.getElementById('loading').classList.add('hide');
+        document.getElementById('container').classList.add('show');
+        document.getElementById('prevBtn').classList.add('show');
+        document.getElementById('nextBtn').classList.add('show');
+        document.getElementById('dots').classList.add('show');
+        document.getElementById('shareBtn').classList.add('show');
+        
+        setupNav();
+        
+      } catch (err) {
+        console.error('❌ 錯誤:', err);
+        document.querySelector('.loading-text').textContent = '初始化失敗';
+        document.getElementById('error').textContent = err.message || '未知錯誤';
+      }
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(main, 300);
+    });
   </script>
 </body>
 </html>
